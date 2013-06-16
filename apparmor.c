@@ -99,11 +99,6 @@ PHP_MINIT_FUNCTION(apparmor)
     ZEND_INIT_MODULE_GLOBALS(apparmor, php_apparmor_init_globals, NULL);
     REGISTER_INI_ENTRIES();
 
-    /*const char* profile_name = APPARMOR_G(profile_name);
-    if (profile_name) {
-
-    }*/
-
     return SUCCESS;
 }
 /* }}} */
@@ -113,6 +108,7 @@ PHP_MINIT_FUNCTION(apparmor)
 PHP_MSHUTDOWN_FUNCTION(apparmor)
 {
     UNREGISTER_INI_ENTRIES();
+
     return SUCCESS;
 }
 /* }}} */
