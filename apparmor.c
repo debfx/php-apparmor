@@ -63,10 +63,24 @@ zend_module_entry apparmor_module_entry = {
 ZEND_GET_MODULE(apparmor)
 #endif
 
+static PHP_INI_MH(ChangeProfile)
+{
+    APPARMOR_G(profile_name) = new_value;
+
+    if (new_value) {
+        if (aa_change_profile(new_value) < 0) {
+            php_error_docref(NULL TSRMLS_CC, E_ERROR, "Unable to change to AppArmor profile \"%s\": %s.", new_value, strerror(errno));
+            return FAILURE;
+        }
+    }
+
+    return SUCCESS;
+}
+
 /* {{{ PHP_INI
  */
 PHP_INI_BEGIN()
-    STD_PHP_INI_ENTRY("apparmor.profile", NULL, PHP_INI_SYSTEM, OnUpdateString, profile_name, zend_apparmor_globals, apparmor_globals)
+    STD_PHP_INI_ENTRY("apparmor.profile", NULL, PHP_INI_SYSTEM, ChangeProfile, profile_name, zend_apparmor_globals, apparmor_globals)
 PHP_INI_END()
 /* }}} */
 
@@ -84,6 +98,12 @@ PHP_MINIT_FUNCTION(apparmor)
 {
     ZEND_INIT_MODULE_GLOBALS(apparmor, php_apparmor_init_globals, NULL);
     REGISTER_INI_ENTRIES();
+
+    /*const char* profile_name = APPARMOR_G(profile_name);
+    if (profile_name) {
+
+    }*/
+
     return SUCCESS;
 }
 /* }}} */
