@@ -49,8 +49,8 @@ zend_module_entry apparmor_module_entry = {
     apparmor_functions,
     PHP_MINIT(apparmor),
     PHP_MSHUTDOWN(apparmor),
-    PHP_RINIT(apparmor),        /* Replace with NULL if there's nothing to do at request start */
-    PHP_RSHUTDOWN(apparmor),    /* Replace with NULL if there's nothing to do at request end */
+    NULL,                       /* PHP_RINIT(apparmor) */
+    NULL,                       /* PHP_RSHUTDOWN(apparmor) */
     PHP_MINFO(apparmor),
 #if ZEND_MODULE_API_NO >= 20010901
     "0.1",
@@ -113,24 +113,6 @@ PHP_MINIT_FUNCTION(apparmor)
 PHP_MSHUTDOWN_FUNCTION(apparmor)
 {
     UNREGISTER_INI_ENTRIES();
-    return SUCCESS;
-}
-/* }}} */
-
-/* Remove if there's nothing to do at request start */
-/* {{{ PHP_RINIT_FUNCTION
- */
-PHP_RINIT_FUNCTION(apparmor)
-{
-    return SUCCESS;
-}
-/* }}} */
-
-/* Remove if there's nothing to do at request end */
-/* {{{ PHP_RSHUTDOWN_FUNCTION
- */
-PHP_RSHUTDOWN_FUNCTION(apparmor)
-{
     return SUCCESS;
 }
 /* }}} */
