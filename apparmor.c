@@ -82,6 +82,7 @@ static void php_apparmor_init_globals(zend_apparmor_globals *apparmor_globals)
  */
 PHP_MINIT_FUNCTION(apparmor)
 {
+    ZEND_INIT_MODULE_GLOBALS(apparmor, php_apparmor_init_globals, NULL);
     REGISTER_INI_ENTRIES();
     return SUCCESS;
 }
